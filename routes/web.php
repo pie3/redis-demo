@@ -36,3 +36,12 @@ Route::get('/site-visits', function () {
 Route::get('/posts/{id}', [PostController::class, 'show'])->where('id', '[0-9]+');
 // 获取热门文章排行榜
 Route::get('/posts/popular', [PostController::class, 'popular']);
+
+// test
+Route::get('/test', function () {
+    $key = "my_test:timer";
+    dump($key);
+    dump(htmlentities($key));
+    $value = preg_replace('/&([a-z])[a-z]+;/i', '$1', htmlentities($key));
+    dd($value);
+})->middleware('throttle:10,1');
