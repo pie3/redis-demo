@@ -30,7 +30,7 @@
 
             <div class="mt-4">
               <x-label for="content" value="内容" />
-              <x-textarea id="content" class="block mt-1 w-full" name="content" row="5" :value="old('content')"
+              <x-form-textarea id="content" class="block mt-1 w-full" name="content" row="5" :value="old('content')"
                 required />
             </div>
 

@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -23,7 +24,9 @@ class ImageUploadProcessor implements ShouldQueue
     // 文件名
     public string $name;
     // 文件内容
-    public string $content;
+    // public string $content;
+    // 临时文件路径
+    public string $path;
     // 所属文章
     public Post $post;
 
@@ -40,10 +43,11 @@ class ImageUploadProcessor implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $name, string $content, Post $post)
+    public function __construct(string $name, string $path, Post $post)
     {
         $this->name = $name;
-        $this->content = $content;
+        // $this->content = $content;
+        $this->path = $path;
         $this->post = $post;
     }
 
@@ -54,30 +58,32 @@ class ImageUploadProcessor implements ShouldQueue
      */
     public function handle()
     {
-        $path = 'images/' . $this->name;
+        $destPath = 'images/' . $this->name;
 
-        // 如果文件已存在，则退出
-        if (Storage::disk('public')->exists($path)) {
+        // 如果目标文件已存在或者临时文件不存在，则退出
+        if (Storage::disk('public')->exists($destPath) || !Storage::disk('local')->exists($this->path)) {
             return;
         }
 
         // 文件存储成功，则将其保存到数据库，否则 5s 后重试
-        if (Storage::disk('public')->put($path, base64_decode($this->content))) {
+        if (Storage::disk('public')->put($destPath, Storage::disk('local')->get($this->path))) {
             $image = new Image();
             $image->name = $this->name;
-            $image->path = $path;
+            $image->path = $destPath;
             // 为了后面 web URL 可以访问，需要执行：php artisan storage:link 命令创建对应的软连接，
             // php artisan storage:link 命令会根据配置文件 config/filesystems.php 中的 'links' 配置项来创建对应的软连接
-            $image->url = config('app.url') . '/storage/' . $path;
+            $image->url = config('app.url') . '/storage/' . $destPath;
             $image->user_id = $this->post->user_id;
 
             if ($image->save()) {
                 // 图片保存成功，则更新 posts 表的 image_id 字段
                 $this->post->image_id = $image->id;
-                $image->posts->save($this->post);
+                $image->posts()->save($this->post); // 注意这里需要用的是 posts() 而不是 posts
+                // 删除临时文件
+                Storage::disk('local')->delete($this->path);
             } else {
                 // 图片保存失败，则删除当前图片，并在 5s 后重试此任务
-                Storage::disk('public')->delete($path);
+                Storage::disk('public')->delete($destPath);
                 $this->release(5);
             }
 

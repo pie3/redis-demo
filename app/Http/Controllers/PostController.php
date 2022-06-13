@@ -55,9 +55,11 @@ class PostController extends Controller
                 // 获取图片名称
                 $name = $image->getClientOriginalName();
                 // 获取图片二进制数据后通过 Base64 进行编码
-                $content = base64_encode($image->getContent());
+                // $content = base64_encode($image->getContent());
+                // 获取图片存储的临时路径（相对路径）
+                $path = $image->store('temp');
                 // 通过图片处理任务类将图片存储工作推送到 uploads 队列进行异步处理, 下面有三种推送方法
-                ImageUploadProcessor::dispatch($name, $content, $post)->onQueue('uploads');  // 1、直接通过任务类的 dispatch 方法 推送任务
+                ImageUploadProcessor::dispatch($name, $path, $post)->onQueue('uploads');  // 1、直接通过任务类的 dispatch 方法 推送任务
                 // $this->dispatch(new ImageUploadProcessor($name, $content, $post))->onQueue('uploads'); // 2、通过 trait DispatchesJobs 的 dispatch 方法 推送任务
                 // dispatch(new ImageUploadProcessor($name, $content, $post))->onQueue('uploads'); // 3、通过辅助函数 dispatch 推送任务
 
