@@ -48,6 +48,11 @@ Route::get('/posts/create', [PostController::class, 'create']);
 // 保存创建文章内容
 Route::post('/posts/store', [PostController::class, 'store']);
 
+// 广播路由（基于 Redis 发布订阅 + Laravel 广播组件 + Laravel Echo Server）
+Route::get('/broadcast', function () {
+    return view('websocket');
+});
+
 
 // test
 Route::get('/test', function () {

@@ -173,7 +173,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class, // 开启加载 Laravel 广播组件 服务提供者
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
