@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>Laravel Websocket</title>
 
@@ -14,7 +15,14 @@
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
   <!-- Scripts -->
-  <script rel="text/javascript" src="{{ asset('js/app.js') }}"></script>
+  <script rel="text/javascript" src="{{ asset('js/app.js') }}" defer></script>
+{{--   <script type="text/javascript">
+    let groupId = 1;
+    Echo.private('wechat.group.' + groupId).listen('UserSendMessage', event => {
+      console.log(event.user.name + ' Says ' + event.message)
+    })
+  </script> --}}
+
 </head>
 
 <body class="antialiased">

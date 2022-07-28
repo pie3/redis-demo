@@ -48,7 +48,13 @@ Route::get('/posts/create', [PostController::class, 'create']);
 // 保存创建文章内容
 Route::post('/posts/store', [PostController::class, 'store']);
 
-// 广播路由（基于 Redis 发布订阅 + Laravel 广播组件 + Laravel Echo Server）
+// 广播路由（基于 Redis 发布订阅 + socket.io（ioredis + http + socket.io-client））
+Route::get('/broadcast-sio', function () {
+    return view('websocket');
+});
+
+// 广播路由（基于 Redis 发布订阅（Redis::publish + Redis::subscribe） + Laravel 广播组件 + Laravel Echo Server）
+// 文档来源：https://laravelacademy.org/post/22179
 Route::get('/broadcast', function () {
     return view('websocket');
 });

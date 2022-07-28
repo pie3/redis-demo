@@ -16,7 +16,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
+let token = document.head.querySelector('meta[name="csrf-token"]');
+if (token) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.textContent;
+} else {
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+import Echo from 'laravel-echo';
 
 // window.Pusher = require('pusher-js');
 
@@ -26,3 +33,21 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+
+// window.io = require('socket.io-client');
+
+// window.Echo = new Echo({
+//   broadcaster: 'socket.io',
+//   host: window.location.hostname + ':6001'
+// });
+
+// Echo.channel('redis_demo_database_test-channel').listen('UserSignedUp', event => {
+//   console.log(event.user);
+// });
+
+const io = require('socket.io-client');
+const socket = io(window.location.hostname + ':3000');
+socket.on('redis_demo_database_test-channel:UserSignedUp', data => {
+  console.log(data.username);
+});
