@@ -48,13 +48,23 @@ Route::get('/posts/create', [PostController::class, 'create']);
 // 保存创建文章内容
 Route::post('/posts/store', [PostController::class, 'store']);
 
-// 广播路由（基于 Redis 发布订阅 + socket.io（ioredis + http + socket.io-client））
+// 广播路由（基于 Redis 发布订阅（Redis::publish + Redis::subscribe） + socket.io（ioredis + http + socket.io-client））
+// 文档来源：https://laravelacademy.org/post/22179
 Route::get('/broadcast-sio', function () {
     return view('websocket');
 });
 
-// 广播路由（基于 Redis 发布订阅（Redis::publish + Redis::subscribe） + Laravel 广播组件 + Laravel Echo Server）
-// 文档来源：https://laravelacademy.org/post/22179
+// 广播路由（基于 Redis 发布订阅（Redis::publish + Redis::subscribe） + Laravel 广播组件 + Laravel Echo Server + Laravel Echo）
+// 文档来源：https://laravelacademy.org/post/22180 22181
+// https://laravelacademy.org/post/22181  
+// 注意：项目 package.json 中已安装的 socket.io-client 版本需调整为与 laravel-echo-server 中的 socket.io 版本一致，否则很可能导致
+// Websocket 连接建立失败
+//（查看 laravel-echo-server 中的 socket.io 版本的方法如下:
+// [或者更简单的： docker-compose exec laravel-echo-server  npm explain socket.io ]
+// 1、进入 laravel-echo-server 容器：docker-compose exec --user=root laravel-echo-server sh
+// 2-1、方法1：npm explain socket.io
+// 2-2、方法2: 查看 laravel-echo-server 容器中 socket.io 的 package.json 文件：cat node_modules/socket.io/package.json
+// ）
 Route::get('/broadcast', function () {
     return view('websocket');
 });

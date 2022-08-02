@@ -41,8 +41,8 @@ class RedisPublish extends Command
      */
     public function handle()
     {
-        
-        $data = [
+        // 以数组形式模拟的事件消息数据
+        /* $data = [
             'event' => 'UserSignedUp',
             'data' => [
                 'username' => 'Python'
@@ -50,16 +50,18 @@ class RedisPublish extends Command
         ];
 
         Redis::publish('test-channel', json_encode($data));
+         */
    
-
-        /*
+        // 分发广播事件 - UserSignedUp
         $user = User::find(1);
         event(new UserSignedUp($user));
-        */
-
+       
+        
+        // 分发广播事件 - UserSendMessage
         /* $user = User::find(1);
         $message = 'hello, Pie!';
         $groupId = 1;
-        event(new UserSendMessage($user, $message, $groupId)); */
+        event(new UserSendMessage($user, $message, $groupId));
+         */
     }
 }

@@ -10,12 +10,6 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
 let token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.textContent;
@@ -23,8 +17,25 @@ if (token) {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
+
+// --begin 基于 Redis 发布订阅（Redis::publish + Redis::subscribe） + socket.io  
+/* const io = require('socket.io-client');
+const socket = io(window.location.hostname + ':3000');
+socket.on('redis_demo_database_test-channel:UserSignedUp', data => {
+  console.log(data.username);
+}); */
+// --end
+
+
 import Echo from 'laravel-echo';
 
+// --begin 基于 Pusher  
 // window.Pusher = require('pusher-js');
 
 // window.Echo = new Echo({
@@ -33,21 +44,19 @@ import Echo from 'laravel-echo';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+// --end
 
 
-// window.io = require('socket.io-client');
+// --begin 基于 socket.io 客户端  
+window.io = require('socket.io-client');
 
-// window.Echo = new Echo({
-//   broadcaster: 'socket.io',
-//   host: window.location.hostname + ':6001'
-// });
-
-// Echo.channel('redis_demo_database_test-channel').listen('UserSignedUp', event => {
-//   console.log(event.user);
-// });
-
-const io = require('socket.io-client');
-const socket = io(window.location.hostname + ':3000');
-socket.on('redis_demo_database_test-channel:UserSignedUp', data => {
-  console.log(data.username);
+window.Echo = new Echo({
+  broadcaster: 'socket.io',
+  host: window.location.hostname + ':6001'
 });
+
+window.Echo.channel('redis_demo_database_test-channel').listen('UserSignedUp', event => {
+  console.log(event.user);
+});
+// --end
+
