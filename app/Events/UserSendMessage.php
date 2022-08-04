@@ -24,6 +24,10 @@ class UserSendMessage implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
+     * @param User $user
+     * @param $message
+     * @param $groupId
+     * 
      * @return void
      */
     public function __construct(User $user, $message, $groupId)
@@ -40,6 +44,7 @@ class UserSendMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        // 公共频道用'Channel'，私有频道用 'PrivateChannel', 存在频道用 'PresenceChannel'
         return new PrivateChannel('wechat.group.' . $this->groupId);
     }
 }

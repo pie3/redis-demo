@@ -69,6 +69,11 @@ Route::get('/broadcast', function () {
     return view('websocket');
 });
 
+// 广播路由 - 基于 Redis 实现 Laravel 广播功能 - 在私有频道发布和接收消息
+Route::get('/broadcast-private', function () {
+    return view('websocket');
+});
+
 
 // test
 Route::get('/test', function () {

@@ -53,15 +53,15 @@ class RedisPublish extends Command
          */
    
         // 分发广播事件 - UserSignedUp
-        $user = User::find(1);
+        /* $user = User::find(1);
         event(new UserSignedUp($user));
-       
+        */
         
         // 分发广播事件 - UserSendMessage
-        /* $user = User::find(1);
-        $message = 'hello, Pie!';
+        $user = User::find(1);
+        $message = 'Hello, Pie!';
         $groupId = 1;
         event(new UserSendMessage($user, $message, $groupId));
-         */
+        
     }
 }

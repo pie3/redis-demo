@@ -14,19 +14,21 @@
   <!-- Styles -->
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-  <!-- Scripts -->
-  <script rel="text/javascript" src="{{ asset('js/app.js') }}" defer></script>
-{{--   <script type="text/javascript">
-    let groupId = 1;
-    Echo.private('wechat.group.' + groupId).listen('UserSendMessage', event => {
-      console.log(event.user.name + ' Says ' + event.message)
-    })
-  </script> --}}
-
 </head>
 
 <body class="antialiased">
   <h1>Broadcast Test</h1>
+  <p>{{ $message ?? '' }}</p>
 </body>
+
+<!-- Scripts -->
+<script rel="text/javascript" src="{{ asset('js/app.js') }}"></script>
+<script type="text/javascript">
+  let groupId = 1;
+  // 通过 Echo.private 方法接收私有频道广播的消息
+  window.Echo.private('wechat.group.' + groupId).listen('UserSendMessage', event => {
+    console.log(event.user.name + ' Says: ' + event.message);
+  });
+</script>
 
 </html>

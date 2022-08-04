@@ -40,6 +40,7 @@ class UserSignedUp implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        // 公共频道用'Channel'，私有频道用 'PrivateChannel', 存在频道用 'PresenceChannel'
         return new Channel('test-channel');
     }
 }
