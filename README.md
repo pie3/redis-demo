@@ -1,6 +1,7 @@
 ## redis-demo
 - laravel + redis demo
 - Laravel Framework 8.83.9
+- Reference to Project: https://github.com/nonfu/redis-demo
 
 ### 项目源码在 github 上的初始化
 - 1、在 Github 上新建项目仓库：redis-demo (默认分支名设置为: master)
