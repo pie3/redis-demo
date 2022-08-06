@@ -56,7 +56,7 @@ Route::get('/broadcast-sio', function () {
 
 // 广播路由（基于 Redis 实现 Laravel 广播功能（Redis::publish + Redis::subscribe） + Laravel 广播组件 + Laravel Echo Server + Laravel Echo）
 // 文档来源：https://laravelacademy.org/post/22180 22181
-// https://laravelacademy.org/post/22181  
+// https://laravelacademy.org/post/22181
 // 注意：项目 package.json 中已安装的 socket.io-client 版本需调整为与 laravel-echo-server 中的 socket.io 版本一致，否则很可能导致
 // Websocket 连接建立失败
 //（查看 laravel-echo-server 中的 socket.io 版本的方法如下:
@@ -71,6 +71,11 @@ Route::get('/broadcast', function () {
 
 // 广播路由 - 基于 Redis 实现 Laravel 广播功能 - 在私有频道发布和接收消息
 Route::get('/broadcast-private', function () {
+    return view('websocket');
+});
+
+// 广播路由 - 基于 Redis 实现 Laravel 广播功能 - 在存在频道发布和接收消息
+Route::get('/broadcast-presence', function () {
     return view('websocket');
 });
 

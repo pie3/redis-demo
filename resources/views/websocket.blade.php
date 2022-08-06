@@ -25,10 +25,18 @@
 <script rel="text/javascript" src="{{ asset('js/app.js') }}"></script>
 <script type="text/javascript">
   let groupId = 1;
+
   // 通过 Echo.private 方法接收私有频道广播的消息
   window.Echo.private('wechat.group.' + groupId).listen('UserSendMessage', event => {
     console.log(event.user.name + ' Says: ' + event.message);
   });
+
+  // 通过 Echo.join 方法加入某个私有频道返回的 PresenceChannel 实例，然后在其基础上通过 listen 接收 Websocket 服务端广播消息.
+  window.Echo.join('wechat.group.' + groupId).listen('UserEnterGroup', event => {
+    // 监听 & 接收服务端广播的消息
+    console.log(event.user.name + ' 加入了群聊');
+  });
+
 </script>
 
 </html>

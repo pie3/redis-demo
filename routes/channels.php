@@ -17,6 +17,9 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
+// 私有频道和存在频道 (共用同一个授权路由：'wechat.group.{id}') 的授权路由，
+// 因为存在频道是基于私有频道的，频道名称一样 (都是：('wechat.group.{id}' )，
+// 加入存在频道的授权校验逻辑不需要调整，与私有频道共用同一个授权路由
 Broadcast::channel('wechat.group.{id}', function ($user, $id) {
     // 模拟微信群与用户映射关系列表，正式项目可以读取数据库获取
     $groupUsers = [

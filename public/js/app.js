@@ -5147,7 +5147,7 @@ if (token) {
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-// --begin 基于 Redis 发布订阅（Redis::publish + Redis::subscribe） + socket.io  
+// --begin 基于 Redis 发布订阅（Redis::publish + Redis::subscribe） + socket.io
 
 /* const io = require('socket.io-client');
 const socket = io(window.location.hostname + ':3000');
@@ -5157,7 +5157,7 @@ socket.on('redis_demo_database_test-channel:UserSignedUp', data => {
 // --end
 
 
- // --begin 基于 Pusher  
+ // --begin 基于 Pusher
 // window.Pusher = require('pusher-js');
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
@@ -5166,20 +5166,17 @@ socket.on('redis_demo_database_test-channel:UserSignedUp', data => {
 //     forceTLS: true
 // });
 // --end
-// --begin 基于 socket.io 客户端  
+// --begin 基于 socket.io 客户端
 
 window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'socket.io',
   host: window.location.hostname + ':6001'
-});
+}); // 客户端请求头包含 X-Socket-ID, Laravel Echo 初始化时会为每个连接分配一个唯一的 Socket ID，用于标识不同的 Websocket 客户端
+// window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
+
 window.Echo.channel('redis_demo_database_test-channel').listen('UserSignedUp', function (event) {
   console.log(event.user);
-});
-var groupId = 1; // 通过 Echo.private 方法接收私有频道广播的消息
-
-window.Echo["private"]('wechat.group.' + groupId).listen('UserSendMessage', function (event) {
-  console.log(event.user.name + ' Says ' + event.message);
 }); // --end
 
 /***/ }),
