@@ -29,7 +29,7 @@ class UserEnterGroup implements ShouldBroadcast
     {
         $this->user = $user;
         $this->groupId = $groupId;
-        // $this->dontBroadcastToCurrentUser(); // 将这个事件消息广播给排除当前用户的所有其他在线用户
+        $this->dontBroadcastToCurrentUser(); // 将这个事件消息广播给排除当前用户的所有其他在线用户
     }
 
     /**

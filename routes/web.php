@@ -79,6 +79,13 @@ Route::get('/broadcast-presence', function () {
     return view('websocket');
 });
 
+// 广播路由 - 基于 Redis 实现 Laravel 广播功能 - 通过路由分发广播事件 - 推送广播消息给其他用户
+// 文档来源：https://laravelacademy.org/post/22182
+Route::post('/groups/{id}/enter', function ($id) {
+    broadcast(new \App\Events\UserEnterGroup(request()->user(), $id))->toOthers();
+    return true;
+});
+
 
 // test
 Route::get('/test', function () {

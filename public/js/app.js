@@ -5173,8 +5173,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'socket.io',
   host: window.location.hostname + ':6001'
 }); // 客户端请求头包含 X-Socket-ID, Laravel Echo 初始化时会为每个连接分配一个唯一的 Socket ID，用于标识不同的 Websocket 客户端
-// window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
 
+window.axios.defaults.headers.common['X-Socket-ID'] = window.Echo.socketId();
 window.Echo.channel('redis_demo_database_test-channel').listen('UserSignedUp', function (event) {
   console.log(event.user);
 }); // --end
