@@ -32,7 +32,8 @@
   });
 
   // 通过 Echo.join 方法加入某个私有频道返回的 PresenceChannel 实例，然后在其基础上通过 listen 接收 Websocket 服务端广播消息.
-  window.Echo.join('wechat.group.' + groupId)
+  // Test Failed !
+  /* window.Echo.join('wechat.group.' + groupId)
     .joining(user => {
       // 正在加入频道
       console.log(user);
@@ -49,6 +50,7 @@
       // 监听 & 接收服务端广播的消息
       console.log(event.user.name + ' 加入了群聊');
     });
+     */
 
 </script>
 
