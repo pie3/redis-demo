@@ -147,8 +147,8 @@ return [
     */
 
     'websocket' => [
-        'enable' => false,
-        // 'handler' => XxxWebSocketHandler::class,
+        'enable' => true,
+        'handler' => \App\Services\WebSocketService::class,
     ],
 
     /*
@@ -283,6 +283,7 @@ return [
 
     'swoole' => [
         'daemonize'          => env('LARAVELS_DAEMONIZE', false),
+        // dispatch_mode只能设置为 2、4、5，https://wiki.swoole.com/#/server/setting?id=dispatch_mode
         'dispatch_mode'      => env('LARAVELS_DISPATCH_MODE', 3),
         'worker_num'         => env('LARAVELS_WORKER_NUM', 30),
         //'task_worker_num'    => env('LARAVELS_TASK_WORKER_NUM', 10),
@@ -304,5 +305,9 @@ return [
         'enable_coroutine'   => false,
         'upload_tmp_dir'     => @is_writable('/dev/shm/') ? '/dev/shm' : '/tmp',
         'http_compression'   => env('LARAVELS_HTTP_COMPRESSION', false),
+
+        // 每隔 60s 检测一次所有连接，如果某个连接在 600s 内都没有发送任何数据，则关闭该连接
+        'heartbeat_idle_time' => 600,
+        'heartbeat_check_interval' => 60,
     ],
 ];

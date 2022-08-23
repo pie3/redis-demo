@@ -87,6 +87,12 @@ Route::post('/groups/{id}/enter', function ($id) {
 });
 
 
+// Websocket 客户端路由
+Route::get('/wsc', function () {
+    return view('swoole.websocket-client');
+});
+
+
 // test
 Route::get('/test', function () {
     $key = "my_test:timer";
