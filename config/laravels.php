@@ -196,6 +196,7 @@ return [
         'jobs'            => [
             // Enable LaravelScheduleJob to run `php artisan schedule:run` every 1 minute, replace Linux Crontab
             // Hhxsv5\LaravelS\Illuminate\LaravelScheduleJob::class,
+            \App\Jobs\Timer\SwooleTestCronJob::class, // Override the corresponding method to return the configuration
         ],
 
         // Max waiting time of reloading
@@ -284,7 +285,7 @@ return [
     'swoole' => [
         'daemonize'          => env('LARAVELS_DAEMONIZE', false),
         // dispatch_mode只能设置为 2、4、5，https://wiki.swoole.com/#/server/setting?id=dispatch_mode
-        'dispatch_mode'      => env('LARAVELS_DISPATCH_MODE', 3),
+        'dispatch_mode'      => env('LARAVELS_DISPATCH_MODE', 2),
         'worker_num'         => env('LARAVELS_WORKER_NUM', 30),
         //'task_worker_num'    => env('LARAVELS_TASK_WORKER_NUM', 10),
         'task_ipc_mode'      => 1,
