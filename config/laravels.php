@@ -284,10 +284,11 @@ return [
 
     'swoole' => [
         'daemonize'          => env('LARAVELS_DAEMONIZE', false),
-        // dispatch_mode只能设置为 2、4、5，https://wiki.swoole.com/#/server/setting?id=dispatch_mode
+        // dispatch_mode 只能设置为 2、4、5，https://wiki.swoole.com/#/server/setting?id=dispatch_mode
         'dispatch_mode'      => env('LARAVELS_DISPATCH_MODE', 2),
         'worker_num'         => env('LARAVELS_WORKER_NUM', 30),
         //'task_worker_num'    => env('LARAVELS_TASK_WORKER_NUM', 10),
+        'task_worker_num'    => function_exists('swoole_cpu_num') ? swoole_cpu_num() * 2 : 8,
         'task_ipc_mode'      => 1,
         'task_max_request'   => env('LARAVELS_TASK_MAX_REQUEST', 100000),
         'task_tmpdir'        => @is_writable('/dev/shm/') ? '/dev/shm' : '/tmp',

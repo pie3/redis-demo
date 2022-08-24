@@ -92,6 +92,13 @@ Route::get('/wsc', function () {
     return view('swoole.websocket-client');
 });
 
+// Swoole 异步任务测试
+Route::get('/task/test-async', function () {
+    $task = new \App\Jobs\SwooleAsyncTestTask('测试异步任务');
+    $success = \Hhxsv5\LaravelS\Swoole\Task\Task::deliver($task); // 异步投递任务，触发调用任务类的 handle 方法
+    var_dump($success);
+});
+
 
 // test
 Route::get('/test', function () {
