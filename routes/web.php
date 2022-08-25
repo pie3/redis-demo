@@ -99,6 +99,13 @@ Route::get('/task/test-async', function () {
     var_dump($success);
 });
 
+// Swoole 自定义异步事件监听及处理 路由
+Route::get('/event/test', function () {
+    $event = new \App\Events\SwooleTestEvent('测试 Swoole 异步事件监听及处理');
+    $success = \Hhxsv5\LaravelS\Swoole\Task\Event::fire($event);
+    var_dump($success);
+});
+
 
 // test
 Route::get('/test', function () {
