@@ -115,3 +115,4 @@ Route::get('/test', function () {
     $value = preg_replace('/&([a-z])[a-z]+;/i', '$1', htmlentities($key));
     dd($value);
 })->middleware('throttle:10,1');
+
