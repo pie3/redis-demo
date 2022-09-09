@@ -178,7 +178,16 @@ return [
     |
     */
 
-    'processes' => [],
+    'processes' => [
+        // 启用后会一直循环执行（可以看下 laravel.log 记录），不用时记得先临时这里注释掉,并重启laravels（ php bin/laravels restart ）
+        /*
+        [
+            'class' => \App\Processes\TestCustomProcess::class,
+            'redirect' => false, // 是否将输入输出重定向到 stdin/stdout, true or false
+            'pipe' => 0, // 管道类型， 0：不使用管道，1：SOCKET_STREAM  2：SOCKET_DGRAM
+        ],
+         */
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -314,7 +323,7 @@ return [
         'reload_async'       => true,
         'max_wait_time'      => 60,
         'enable_reuse_port'  => true,
-        'enable_coroutine'   => false,
+        'enable_coroutine'   => true, // 设置为 true，表示在 laravels 代码中启用 Swoole 协程
         'upload_tmp_dir'     => @is_writable('/dev/shm/') ? '/dev/shm' : '/tmp',
         'http_compression'   => env('LARAVELS_HTTP_COMPRESSION', false),
 
